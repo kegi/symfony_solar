@@ -1,0 +1,8 @@
+[submodule "docroots"]
+	path = docroots
+	url = git@github.com:mventures/legacy-docroots.git
+	branch = master
+[submodule "solar"]
+	path = solar
+	url = git@github.com:mventures/legacy-code.git
+	branch = master
