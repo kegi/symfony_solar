@@ -48,7 +48,7 @@
     },
     "extra": {
         "symfony-app-dir": "app",
-        "symfony-web-dir": "docroots",
+        "symfony-web-dir": "docroots/ota_fhub_desktop",
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
         },

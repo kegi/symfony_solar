@@ -8,6 +8,7 @@ if (file_exists(__DIR__ . '/routes.txt')) {
 $request = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 $request = explode('?', $request, 2);
 $request = isset($request[0]) ? $request[0] : '';
+
 if (in_array($request, $routes) || substr($request, 0, 3) === '/1/') {
     if (!defined('LEGACY_APP')) {
         define('LEGACY_APP', false);

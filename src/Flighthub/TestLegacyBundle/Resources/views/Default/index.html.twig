@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Testing Symfony and Solar !{% endblock %}
+
+{% block content %}
+
+    <h1>Bridge between Symfony and Solar !</h1>
+    <h2>Mv_Ota_Location_Continents</h2>
+
+    <ul>
+
+    {% for continent in continents %}
+
+        <li>{{ continent.name }} <span style="font-size:0.8em; color:#999999;">(id. {{ continent.id }})</span></li>
+
+    {% endfor %}
+
+    </ul>
+
+{% endblock %}

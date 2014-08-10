@@ -1,13 +1,426 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+{% set baseUrl = 'http://127.0.0.1/' %}
+
+{% block head %}
+
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        {# todo : take care of tite #}
+
+        <title>
+            {% block title %}
+                Flighthub
+            {% endblock %}
+        </title>
+
+        {% block head_meta %}
+
+            {# todo : take care of meta tags (description, keywords, etc...) #}
+
+            <meta http-equiv="cache-control" content="no-cache"/>
+            <meta http-equiv="expires" content="0"/>
+            <meta http-equiv="pragma" content="no-cache"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+            <meta property="og:image" content="{{ baseUrl }}images/facebook-thumb.png"/>
+            <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=0"/>
+            <meta name="format-detection" content="telephone=no"/>
+
+        {% endblock %}
+
+        <link rel="shortcut icon" href="{{ baseUrl }}images/logo.ico"/>
+
+        {% block stylesheets %}
+
+            {# todo : use assetic to compile css files #}
+
+            <link rel="stylesheet" type="text/css" href="{{ baseUrl }}css/index.css" media="all"/>
+            <link rel="stylesheet" type="text/css" href="{{ baseUrl }}css/print.css" media="print"/>
+
+            <!--[if IE 8]>
+            <link rel="stylesheet" type="text/css" href="{{ baseUrl }}css/ie8.css?v=1">
+            <![endif]-->
+
+            <!--[if gte IE 9]>
+            <style type="text/css">
+                .gradient {
+                    filter: none;
+                }
+            </style>
+            <![endif]-->
+
+        {% endblock %}
+
+        {% block javascript_head %}
+
+            {# todo : take care of google analytics #}
+
+            <script type="text/javascript" src="{{ baseUrl }}js/index.js"></script>
+
+        {% endblock %}
+
     </head>
+
+{% endblock %}
+
+{% block body %}
+
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+    <div id="fb-root"></div>
+
+    <div class="wrapper">
+
+        {% block head_and_navigation %}
+
+            <div class="head-wrap">
+                <div class="head-top-dark-grey">
+
+                    {# todo : handle agent connexion here #}
+
+                    {#
+
+                    <?php
+        if ($this->agent)
+                    {
+                    ?>
+                    <div class="agent-logged-in mobile-hide">Agent logged in: <?= $this->agent->username ?>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?= $this->getBaseUrl() ?>agent/logout">logout</a></div>
+                    <?php
+        }
+        ?>
+                    #}
+
+                </div>
+
+                <div class="header">
+
+                    <a href="{{ baseUrl }}" class="logo"></a>
+
+                    <!-- side box toll free start -->
+
+                    <div class="nav-toll-free-container">
+                        <ul class="top-links">
+
+                            {# todo : handle user connexion #}
+
+                            {#
+
+                            <?php
+                if ($this->auth_user)
+                            {
+                            ?>
+                            <li><a class="support" href="<?=$this->getBaseUrl()?>help"><?=$this->getText('header-topnav-support')?></a></li>
+                            <li><a class="account" rel="nofollow" href="<?=$this->getBaseUrl()?>my-account/"><?=$this->getText('header-topnav-myaccount')?></a></li>
+                            <li><a class="logout" rel="nofollow" href="<?=$this->getBaseUrl()?>my-account/logout"><?=$this->getText('header-topnav-logout')?></a></li>
+                            <?php
+                }
+                else
+                {
+                    ?>
+                            #}
+
+                            {# todo : handle getText #}
+
+                            <li class="notloggedin"><a class="support-default" href="{{ baseUrl }}help">Support</a></li>
+                            <li class="notloggedin"><a class="login-default" rel="nofollow"
+                                                       href="{{ baseUrl }}my-account/login">Login</a></li>
+
+                            {#
+                            <?php
+                }
+                ?>
+                            #}
+
+                        </ul>
+
+                        <div class="header-number">
+                            1-800-900-1431
+                        </div>
+
+                        <div class="country-currency-wrap">
+                            <div class="country-currency-left">
+
+                                {# todo : handle country['code'] #}
+
+                                <a rel="nofollow" id="select-country-dropdown-button" class="pointer">
+                                    <img src="{{ baseUrl }}images/small-flag-CA.png" class="middle3px" alt="currency"/>
+                                    &nbsp;Canada - En
+                                </a>
+
+                                <!-- country drop down start -->
+
+                                <ul class="select-country-dropdown" style="display:none;">
+
+                                    {# todo : handle countries dropdown #}
+
+                                    <li>todo...</li>
+                                    <li>todo...</li>
+                                    <li>todo...</li>
+
+                                    {#
+
+                                    <?php
+                        foreach ($this->available_countries as $country_code => $country_info)
+                                    {
+                                    $page_url = $this->base_url . $country_info['language-url-path'] . '?country=' . $country_code;
+                                    ?>
+                                    <li>
+                                        <a rel="nofollow" href="<?= $page_url ?>">
+                                            <img src="<?= $this->base_url ?>images/small-flag-<?=$country_code?>.png" class="middle5px" alt="currency" />
+                                            &nbsp;<?= ucwords($country_info['name']) ?>
+                                        </a>
+                                    </li>
+                                    <?php
+                        }
+                        ?>
+                                    #}
+
+                                </ul>
+                                <!-- country drop down end -->
+
+                            </div>
+
+                            <div class="country-currency-right">
+                                <div class="top-links-currency">
+                                    <a rel="nofollow" id="select-currency-dropdown-button" class="pointer">
+
+                                        {# todo : handle current currency #}
+
+                                        $ CAD
+                                    </a>
+                                </div>
+                                <ul class="select-currency-dropdown" style="display:none;">
+
+                                    {# todo : handle currencies drop down #}
+
+                                    <li>todo...</li>
+                                    <li>todo...</li>
+                                    <li>todo...</li>
+
+                                    {#
+
+                                    <?php foreach ($this->available_display_currencies as $currency): ?>
+                                    <?php
+                            $url = parse_url($_SERVER['REQUEST_URI']);
+                            $queryString = array();
+                            if (isset($url['query'])) {
+                                parse_str($url['query'], $queryString);
+                            }
+                            $queryString['display_currency'] = $currency;
+                            ?>
+                                    <li>
+                                        <a href="<?= $url['path'] . '?' . http_build_query($queryString) ?>" rel="nofollow">
+                                            <?= Mv_Ota_Currency::getCurrencySymbol($currency) ?>
+                                            <?= strtoupper($currency) ?>
+                                        </a>
+                                    </li>
+                                    <?php endforeach; ?>
+
+                                    #}
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- side box toll free end -->
+
+                    <!-- navigation start -->
+
+                    <div class="nav-wrap">
+
+                        <ul class="nav">
+
+                            {# todo : handle selected tab #}
+
+                            <li><a rel="nofollow" href="{{ baseUrl }}flights">Flights</a></li>
+                            <li><a rel="nofollow" href="{{ baseUrl }}hotels">Hotels</a></li>
+                            <li><a href="{{ baseUrl }}cheap-flights">Travel Guides</a></li>
+                            <li><a rel="nofollow" href="{{ baseUrl }}insurance">Insurance</a></li>
+                            <li><a rel="nofollow" href="{{ baseUrl }}my-account">My Trips</a></li>
+
+                        </ul>
+
+                    </div>
+
+                    <!-- navigation end -->
+
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+
+        {% endblock %}
+
+        {# todo : handle google adwords and google doubleclick #}
+
+        {% block content %}
+
+        {% endblock %}
+
+        <div class="push"></div>
+    </div>
+
+
+    <div class="footer">
+
+        {% block footer %}
+
+            <!-- mobile only footer -->
+            <div class="mobile-only">
+                <div class="hp-phone-number">
+                    <span class="bigger">Need Help? Call us Toll-Free</span><br/>
+                    <a href="tel://1-800-900-1431">1-800-900-1431</a>
+                </div>
+            </div>
+            <!-- end mobile only footer -->
+
+
+            <div class="footer-top-wrap">
+                <div class="footer-top-inner clearfix">
+                    <div class="footer-box1">
+
+                        For assistance or to book by phone:<br/>
+                        <span class="bigger">1-800-900-1431</span><br/>
+                        Weekdays: 8am - midnight EST, Weekends: 8am - 4pm EST<br/>
+
+                    </div>
+                    <div class="footer-box2">
+                        <img src="{{ baseUrl }}images/logos-footer-3.png"
+                             alt="tripadvisor hotel reviews, TICO reg #50020415"/><br/>
+
+                        <div class="footer-logos-wrap">
+                            <div class="footer-logos-left">
+                                <script type="text/javascript"
+                                        src="https://seal.verisign.com/getseal?host_name=www.flighthub.com&amp;size=S&amp;use_flash=NO&amp;use_transparent=YES&amp;lang=en"></script>
+                            </div>
+                            <div class="footer-logos-right">
+                                <a title="Click for the Business Review of FlightHub, an Online Travel Agency in South Lancaster ON"
+                                   href="http://www.bbb.org/ottawa/business-reviews/online-travel-agency/flighthub-in-south-lancaster-on-47394#sealclick"
+                                   rel="nofollow">
+                                    <img alt="Click for the BBB Business Review of this Online Travel Agency in South Lancaster ON"
+                                         style="border: 0;" src="{{ baseUrl }}images/logo-bbb-3.png"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-box3">
+                        <div class="footer-social-wrap">
+                            <div class="footer-social-box">
+                                <a rel="nofollow" href="https://www.facebook.com/pages/FlightHub/120632824751454"
+                                   target="_blank"><img src="{{ baseUrl }}images/icon-facebook.png"
+                                                        alt="facebook page"/></a>
+                            </div>
+                            <div class="footer-social-box">
+                                <a rel="publisher" href="https://plus.google.com/101388693389429959909" target="_blank"><img
+                                            src="{{ baseUrl }}images/icon-googleplus.png" alt="google plus page"/></a>
+                            </div>
+                            <div class="footer-social-box">
+                                <a rel="nofollow" href="https://twitter.com/Flight_Hub" target="_blank"><img
+                                            src="{{ baseUrl }}images/icon-twitter.png" alt="twitter page"/></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bar">
+                <div class="footer-bar-left">
+                    Copyright &copy; {{ "now" | date("Y") }} Flighthub.com
+                </div>
+                <div class="footer-bar-right">
+                    <ul>
+                        <li class="mobile-hide"><a href="{{ baseUrl }}help">Need Help?</a></li>
+                        <li><a href="{{ baseUrl }}about-us">About Us</a></li>
+                        <li><a rel="nofollow" href="{{ baseUrl }}privacy-policy">Privacy Policy</a></li>
+                        <li><a rel="nofollow" href="{{ baseUrl }}terms-and-conditions">Terms &amp; Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        {% endblock %}
+
+    </div>
+
+    <style type="text/css">
+        .recaptchatable {
+            border: 0px solid #DFDFDF !important;
+        }
+
+        div #recaptcha_table .recaptcha_image_cell {
+            padding: 0px !important;
+            border: 1px solid #DFDFDF !important;
+        }
+
+        .recaptchatable #recaptcha_image {
+            border: 0px solid #DFDFDF !important;
+        }
+
+        .recaptchatable #recaptcha_image img {
+            width: 230px !important;
+        }
+    </style>
+
+    {% block javascripts %}
+
+        {# todo : take care of : _google_remarketing, _retarget_input_id, _adroll_pixel, _criteo_pixel, _bing_ads_conversion #}
+
+        <script type="text/javascript">
+
+            function toggleForm(direction) {
+                var current_width = $('#feedback-form').css('width');
+                if (current_width == '25px' || current_width == '25') {
+                    width = '337px';
+                }
+                else {
+                    width = '25px';
+                }
+
+                if (direction == 'open') {
+                    width = '337px';
+                }
+                else if (direction == 'close') {
+                    width = '25px';
+                }
+
+                $('#feedback-form').animate({
+                    'width': width
+                }, {queue: false, duration: 200})
+
+                $('#feedback-form').find('input:not(#recaptcha_challenge_field), textarea').attr('value', '');
+            }
+
+            $('#feedback-button').click(function () {
+                toggleForm();
+
+                $('#recaptcha_image').css('width', 230);
+                $('.recaptcha_input_area').parent().css('padding-left', 0);
+                $('#recaptcha_response_field').css('width', '258px');
+                $('#recaptcha_logo').hide();
+                $('#recaptcha_tagline').hide();
+            });
+
+            var feedbackForm = new AjaxForm({
+                'form_selector': 'form[name=feedback-form]',
+                'feedback_selector': 'form[name=feedback-form] .feedback_message',
+                'success_callback': function () {
+                    var t = setTimeout(function () {
+                        toggleForm('close');
+                        $('#feedback-form').find('input, textarea').attr('value', '');
+                        Recaptcha.reload();
+                    }, 1000);
+                }
+            });
+
+        </script>
+
+    {% endblock %}
+
     </body>
+
+{% endblock %}
+
 </html>

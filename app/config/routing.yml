@@ -1,0 +1,4 @@
+flighthub_test_legacy:
+    resource: "@FlighthubTestLegacyBundle/Resources/config/routing.yml"
+    prefix:   /1/legacy
+

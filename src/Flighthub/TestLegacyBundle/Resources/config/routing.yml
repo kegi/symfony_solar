@@ -1,0 +1,3 @@
+flighthub_test_legacy_homepage:
+    path:     /
+    defaults: { _controller: FlighthubTestLegacyBundle:Default:index }
